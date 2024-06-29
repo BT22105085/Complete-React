@@ -1,0 +1,10 @@
+.pk-group-item{
+  background-color: #868B8E;
+  color: white;
+  font-size: 25px;
+  /* margin: 10px; */
+  padding: 5px;
+}
+.btn{
+  float: right;
+}

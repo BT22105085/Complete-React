@@ -1,3 +1,7 @@
 .heading{
   background-color: rgb(196, 201, 255);
 }
+.custom-input{
+  width: 100%;
+  margin: 10px 0;
+}
