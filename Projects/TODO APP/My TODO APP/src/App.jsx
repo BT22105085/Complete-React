@@ -8,19 +8,13 @@ function App() {
   let [ToDoItems, SetToDoItems] = useState([
     { work: "Go to Library", dueDate: "25/02/2024" },
   ]);
+
   const AddBehaviour = (first, second) => {
-    let NewToDoItems = [...ToDoItems, { work: first, dueDate: second }];
-    SetToDoItems(NewToDoItems);
-    console.log(first,second);
+    SetToDoItems((currValue)=> [...currValue, { work: first, dueDate: second }]);
   };
+
   const Remove=(item)=>{
-    let NewToDoItems=[];
-    ToDoItems.forEach((element)=>{
-      if(element!==item){
-        NewToDoItems.push(element);
-      }
-    });
-    SetToDoItems(NewToDoItems);
+    SetToDoItems((currValue)=>currValue.filter((element)=> element!==item));
   }
   return (
     <>
