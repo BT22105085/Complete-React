@@ -1,6 +1,6 @@
 import { useContext, useRef } from "react";
 import { IoIosAddCircle } from "react-icons/io";
-import { TodoItemsContext } from "../store/TodoItemsStore";
+import { TodoItemsContext } from "../store/TodoItemsStore.jsx";
 
 const Input = () => {
   const TodoName = useRef();

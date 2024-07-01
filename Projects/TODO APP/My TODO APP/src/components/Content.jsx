@@ -1,5 +1,5 @@
 import { MdDelete } from "react-icons/md";
-import { TodoItemsContext } from "../store/TodoItemsStore";
+import { TodoItemsContext } from "../store/TodoItemsStore.jsx";
 import { useContext } from "react";
 
 const Content = () => {
