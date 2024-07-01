@@ -1,13 +1,15 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { IoIosAddCircle } from "react-icons/io";
+import { TodoItemsContext } from "../store/TodoItemsStore";
 
-const Input = ({ EventHandler }) => {
+const Input = () => {
   const TodoName = useRef();
   const DueDate = useRef();
+  const {AddBehaviour}= useContext(TodoItemsContext);
   const finalHandler = (event) => {
     if (!TodoName.current.value || !DueDate.current.valueOf) return;
     event.preventDefault();
-    EventHandler(TodoName.current.value, DueDate.current.value);
+    AddBehaviour(TodoName.current.value, DueDate.current.value);
     TodoName.current.value="";
     DueDate.current.value="";
   };

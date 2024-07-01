@@ -1,8 +1,11 @@
 import { MdDelete } from "react-icons/md";
+import { TodoItemsContext } from "../store/TodoItemsStore";
+import { useContext } from "react";
 
-const Content = ({ items,EventHandler }) => {
+const Content = () => {
+  const {ToDoItems,Remove}=useContext(TodoItemsContext);
   return <>
-    {items.map((item)=>{
+    {ToDoItems.map((item)=>{
       return <div class="row" key={item.work}>
       <div class="col" key={TextMetrics.work}>
         <p>{item.work}</p>
@@ -12,7 +15,7 @@ const Content = ({ items,EventHandler }) => {
       </div>
       <div class="col">
         <button type="button" class="btn btn-danger"
-        onClick={()=>EventHandler(item)}>
+        onClick={()=>Remove(item)}>
           <MdDelete />
         </button>
       </div>

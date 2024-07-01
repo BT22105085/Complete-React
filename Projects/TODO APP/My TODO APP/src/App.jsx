@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Input from "./components/Input.jsx";
 import Content from "./components/Content.jsx";
+import { TodoItemsContext } from "./store/TodoItemsStore.jsx";
 
 function App() {
   let [ToDoItems, SetToDoItems] = useState([
@@ -15,14 +16,20 @@ function App() {
 
   const Remove=(item)=>{
     SetToDoItems((currValue)=>currValue.filter((element)=> element!==item));
-  }
+  } 
   return (
     <>
       <center>
         <h1>TODO APP</h1>
-      <Input EventHandler={AddBehaviour}></Input>
+        <TodoItemsContext.Provider value={{
+          ToDoItems,
+          AddBehaviour,
+          Remove,
+        }}>
+      <Input></Input>
       {ToDoItems.length===0&& <p>Enjoy ur Day</p>}
-      <Content items={ToDoItems} EventHandler={Remove}></Content>
+      <Content></Content>
+      </TodoItemsContext.Provider>
       </center>
     </>
   );
