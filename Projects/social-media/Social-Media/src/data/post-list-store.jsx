@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { useReducer } from "react";
+import { useReducer, useState,useEffect } from "react";
 
 export const postListContext = createContext({
   postListItems: [],
@@ -15,28 +15,39 @@ const postListReducer = (currPostList, action) => {
       (item) => item.id !== action.payload.id
     );
   } else if (action.type == "ADD_ITEM") {
-    newPostListItems = [...currPostList, action.payload];
-  }else if(action.type==="Add_MULTIPLE_ITEMS"){
-    newPostListItems=action.payload.posts;
+    newPostListItems = [action.payload.post, ...currPostList];
+  } else if (action.type === "Add_MULTIPLE_ITEMS") {
+    newPostListItems = action.payload.posts;
   }
   return newPostListItems;
 };
 
 export const PostListContextProvider = ({ children }) => {
+  const [fetching, setFetching] = useState(false);
+  useEffect(() => {
+    setFetching(true);
+    const controller = new AbortController();
+    const { signal } = controller;
+    fetch("https://dummyjson.com/posts", { signal })
+      .then((res) => res.json())
+      .then((obj) => {
+        AddMultiplePosts(obj.posts);
+        setFetching(false);
+      });
+
+    return () => controller.abort();
+  }, []);
+
   const [postListItems, dispatchPostListItems] = useReducer(
     postListReducer,
     []
   );
-  const AddPostList = (userId, title, body, tags, response) => {
+  const AddPostList = (post) => {
+    post.id+=Date.now();
     const addItemAction = {
       type: "ADD_ITEM",
       payload: {
-        id: Date.now(),
-        userId,
-        title,
-        body,
-        tags,
-        views: response,
+        post,
       },
     };
     dispatchPostListItems(addItemAction);
@@ -60,7 +71,7 @@ export const PostListContextProvider = ({ children }) => {
   };
   return (
     <postListContext.Provider
-      value={{ postListItems, AddPostList, RemovePostList, AddMultiplePosts }}
+      value={{ postListItems, AddPostList, RemovePostList, fetching }}
     >
       {children}
     </postListContext.Provider>

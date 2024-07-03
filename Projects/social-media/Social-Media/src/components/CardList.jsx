@@ -5,21 +5,7 @@ import WelcomeMessage from "./welcome-msg.jsx";
 import Spinner from "./spinner.jsx";
 
 const CardList = () => {
-  const [fetching, setFetching] = useState(false);
-  const { postListItems, AddMultiplePosts } = useContext(postListContext);
-  useEffect(() => {
-    setFetching(true);
-    const controller = new AbortController();
-    const { signal } = controller;
-    fetch("https://dummyjson.com/posts", { signal })
-      .then((res) => res.json())
-      .then((obj) => {
-        AddMultiplePosts(obj.posts);
-        setFetching(false);
-      });
-
-    return () => controller.abort();
-  }, []);
+  const { postListItems,fetching } = useContext(postListContext);
   return (
     <>
       {fetching && <Spinner></Spinner>}

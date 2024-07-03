@@ -12,18 +12,31 @@ const CreatePost = () => {
 
   const handleOnclick = (event) => {
     event.preventDefault();
-    AddPostList(
-      userIdElement.current.value,
-      postTitleElement.current.value,
-      postContentElement.current.value,
-      tagsElement.current.value.split(" "),
-      responseElement.current.value
-    );
-    userIdElement.current.value="";
-    postTitleElement.current.value="";
-    postContentElement.current.value="";
-    tagsElement.current.value="";
-    responseElement.current.value="";
+    const postUserId=userIdElement.current.value;
+    const postTitle=postTitleElement.current.value;
+    const postContent=postContentElement.current.value;
+    const postTags=tagsElement.current.value.split(" ");
+    const postViews=responseElement.current.value;
+    fetch("https://dummyjson.com/posts/1", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body:JSON.stringify({
+        title:postTitle,
+        body:postContent,
+        reactions:postViews,
+        userId:postUserId,
+        tags:postTags,
+      })
+    })
+      .then((res) => res.json())
+      .then(post=>{
+        AddPostList(post);
+      });
+    userIdElement.current.value = "";
+    postTitleElement.current.value = "";
+    postContentElement.current.value = "";
+    tagsElement.current.value = "";
+    responseElement.current.value = "";
   };
 
   return (
