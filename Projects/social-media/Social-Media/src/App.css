@@ -1,0 +1,23 @@
+.pk-parent-div{
+  display: flex;
+}
+.pk-main-content{
+  width:100%
+}
+.pk-card-item{
+  margin: 15px 15px;
+}
+.pk-hashtag{
+  margin :0px 2px;
+}
+.pk-response{
+  margin: 15px 0 0 0;
+}
+.form-post{
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 10%;
+}
+.welcome-msg{
+  margin: 20px 0px;
+}
