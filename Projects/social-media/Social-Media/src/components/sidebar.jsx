@@ -1,16 +1,16 @@
-const Sidebar = ({ SelectedSidebar, SetSelectedSidebar }) => {
-  const HandleSidebarClick = (currItem) => {
-    if (SelectedSidebar === currItem) SetSelectedSidebar("");
-    else SetSelectedSidebar(currItem);
-  };
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { postListContext } from "../data/post-list-store";
 
+const Sidebar = () => {
+  const { SelectedSidebar, HandleSidebarClick } = useContext(postListContext);
   return (
     <div
       className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
       style={{ width: "280px" }}
     >
       <a
-        href="/"
+        href="#"
         className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
       >
         <svg className="bi pe-none me-2" width="40" height="32">
@@ -21,8 +21,8 @@ const Sidebar = ({ SelectedSidebar, SetSelectedSidebar }) => {
       <hr />
       <ul className="nav nav-pills flex-column mb-auto">
         <li className="nav-item" onClick={() => HandleSidebarClick("Home")}>
-          <a
-            href="#"
+          <Link
+            to="/"
             className={`nav-link ${
               SelectedSidebar === "Home" && "active"
             } text-white`}
@@ -32,14 +32,14 @@ const Sidebar = ({ SelectedSidebar, SetSelectedSidebar }) => {
               <use xlinkHref="#home"></use>
             </svg>
             Home
-          </a>
+          </Link>
         </li>
         <li
           className="nav-item"
           onClick={() => HandleSidebarClick("CreatePost")}
         >
-          <a
-            href="#"
+          <Link
+            to="/create-post"
             className={`nav-link ${
               SelectedSidebar === "CreatePost" && "active"
             } text-white`}
@@ -49,7 +49,7 @@ const Sidebar = ({ SelectedSidebar, SetSelectedSidebar }) => {
               <use xlinkHref="#speedometer2"></use>
             </svg>
             CreatePost
-          </a>
+          </Link>
         </li>
       </ul>
     </div>

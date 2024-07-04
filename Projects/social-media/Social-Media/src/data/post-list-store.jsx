@@ -6,6 +6,8 @@ export const postListContext = createContext({
   AddPostList: () => {},
   RemovePostList: () => {},
   AddMultiplePosts: () => {},
+  HandleSidebarClick:()=>{},
+  SelectedSidebar:"",
 });
 
 const postListReducer = (currPostList, action) => {
@@ -23,20 +25,11 @@ const postListReducer = (currPostList, action) => {
 };
 
 export const PostListContextProvider = ({ children }) => {
-  const [fetching, setFetching] = useState(false);
-  useEffect(() => {
-    setFetching(true);
-    const controller = new AbortController();
-    const { signal } = controller;
-    fetch("https://dummyjson.com/posts", { signal })
-      .then((res) => res.json())
-      .then((obj) => {
-        AddMultiplePosts(obj.posts);
-        setFetching(false);
-      });
-
-    return () => controller.abort();
-  }, []);
+  const [SelectedSidebar, SetSelectedSidebar] = useState("Home");
+  const HandleSidebarClick = (currItem) => {
+    if (SelectedSidebar === currItem) return;
+    else SetSelectedSidebar(currItem);
+  };
 
   const [postListItems, dispatchPostListItems] = useReducer(
     postListReducer,
@@ -71,9 +64,11 @@ export const PostListContextProvider = ({ children }) => {
   };
   return (
     <postListContext.Provider
-      value={{ postListItems, AddPostList, RemovePostList, fetching }}
+      value={{ postListItems, AddPostList, RemovePostList,SelectedSidebar,HandleSidebarClick }}
     >
       {children}
     </postListContext.Provider>
   );
 };
+
+

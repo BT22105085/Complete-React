@@ -1,50 +1,13 @@
-import { useContext, useRef } from "react";
-import { postListContext } from "../data/post-list-store.jsx";
-
+import { Form ,redirect} from "react-router-dom";
 const CreatePost = () => {
-  const { AddPostList } = useContext(postListContext);
-
-  const userIdElement = useRef();
-  const postTitleElement = useRef();
-  const postContentElement = useRef();
-  const tagsElement = useRef();
-  const responseElement = useRef();
-
-  const handleOnclick = (event) => {
-    event.preventDefault();
-    const postUserId=userIdElement.current.value;
-    const postTitle=postTitleElement.current.value;
-    const postContent=postContentElement.current.value;
-    const postTags=tagsElement.current.value.split(" ");
-    const postViews=responseElement.current.value;
-    fetch("https://dummyjson.com/posts/1", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body:JSON.stringify({
-        title:postTitle,
-        body:postContent,
-        reactions:postViews,
-        userId:postUserId,
-        tags:postTags,
-      })
-    })
-      .then((res) => res.json())
-      .then(post=>{
-        AddPostList(post);
-      });
-    userIdElement.current.value = "";
-    postTitleElement.current.value = "";
-    postContentElement.current.value = "";
-    tagsElement.current.value = "";
-    responseElement.current.value = "";
-  };
 
   return (
-    <form className="form-post" onSubmit={handleOnclick}>
+    <Form method="POST" className="form-post" >
       <h1 className="h3 mb-3 fw-normal">Tell your friends about yourself</h1>
       <div className="form-floating">
         <input
-          ref={userIdElement}
+          required
+          name="userId"
           type="text"
           className="form-control"
           id="userId"
@@ -53,7 +16,8 @@ const CreatePost = () => {
       </div>
       <div className="form-floating">
         <input
-          ref={postTitleElement}
+          required
+          name="title"
           type="text"
           className="form-control"
           id="title"
@@ -62,7 +26,8 @@ const CreatePost = () => {
       </div>
       <div className="form-floating">
         <textarea
-          ref={postContentElement}
+          required
+          name="body"
           className="form-control"
           style={{ height: "120px" }}
           id="PostContent"
@@ -71,7 +36,7 @@ const CreatePost = () => {
       </div>
       <div className="form-floating">
         <input
-          ref={tagsElement}
+          name="tags"
           type="text"
           className="form-control"
           id="tags"
@@ -80,7 +45,7 @@ const CreatePost = () => {
       </div>
       <div className="form-floating">
         <input
-          ref={responseElement}
+          name="reactions"
           type="text"
           className="form-control"
           id="response"
@@ -92,8 +57,25 @@ const CreatePost = () => {
           Post
         </button>
       </div>
-    </form>
+    </Form>
   );
+};
+
+export async function handleSubmitByRouter(data){
+  const formData= await data.request.formData();
+  const postData=Object.fromEntries(formData);
+  postData.tags.split(" ");
+  console.log(postData);
+  fetch("https://dummyjson.com/posts/1", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(postData),
+  })
+    .then((res) => res.json())
+    .then((post) => {
+      console.log(post);
+    });
+    return redirect("/");
 };
 
 export default CreatePost;
